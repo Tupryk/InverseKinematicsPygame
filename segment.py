@@ -12,11 +12,14 @@ class Segment():
         self.width = width
         
     def follow(self, target):
-        target = np.asarray(target)
         dir = target-self.a
         self.angle = np.arctan2(dir[1], dir[0])
         dir = -(dir * self.length / np.linalg.norm(dir))
         self.a = target + dir
+
+    def set_a(self, pos):
+        self.a = np.copy(pos)
+        self.update()
 
     def update(self):
         dx = self.length * np.cos(self.angle)
