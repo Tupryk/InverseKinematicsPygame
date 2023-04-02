@@ -1,20 +1,19 @@
 import pygame
 import numpy as np
-from segment import Segment
+from arm import Arm
 
 pygame.init()
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 400
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-arm = []
-seg_count = 7
-for i in range(seg_count):
-    width = i+1
-    seg = Segment(300, 200, 50, 0, width=width)
-    arm.append(seg)
-
-base = np.array([SCREEN_WIDTH//2, SCREEN_HEIGHT])
+seg_len = 30
+arm0 = Arm(base=np.array([0, SCREEN_HEIGHT]), seg_len=seg_len*2)
+arm1 = Arm(base=np.array([SCREEN_WIDTH//2, SCREEN_HEIGHT]), seg_len=seg_len)
+arm2 = Arm(base=np.array([SCREEN_WIDTH, SCREEN_HEIGHT]), seg_len=seg_len*2)
+arm3 = Arm(base=np.array([0, 0]), seg_len=seg_len*2)
+arm4 = Arm(base=np.array([SCREEN_WIDTH//2, 0]), seg_len=seg_len)
+arm5 = Arm(base=np.array([SCREEN_WIDTH, 0]), seg_len=seg_len*2)
 
 running = True
 while running:
@@ -25,20 +24,23 @@ while running:
 
     screen.fill((0,0,0))
 
-    arm[0].follow(np.asarray( pygame.mouse.get_pos() ))
-    arm[0].update()
+    arm0.update(np.asarray( pygame.mouse.get_pos() ))
+    arm0.draw(screen)
 
-    for i in range(1, len(arm)):
-        arm[i].follow(arm[i-1].a)
-        arm[i].update()
+    arm1.update(np.asarray( pygame.mouse.get_pos() ))
+    arm1.draw(screen)
 
-    arm[-1].set_a(base)
+    arm2.update(np.asarray( pygame.mouse.get_pos() ))
+    arm2.draw(screen)
 
-    for i in range(len(arm)-2, -1, -1):
-        arm[i].set_a(arm[i+1].b)
+    arm3.update(np.asarray( pygame.mouse.get_pos() ))
+    arm3.draw(screen)
 
-    for seg in arm:
-        seg.draw(screen)
+    arm4.update(np.asarray( pygame.mouse.get_pos() ))
+    arm4.draw(screen)
+
+    arm5.update(np.asarray( pygame.mouse.get_pos() ))
+    arm5.draw(screen)
 
     pygame.display.update()
 
